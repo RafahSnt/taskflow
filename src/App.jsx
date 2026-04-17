@@ -11,33 +11,9 @@ function App() {
   ]);
 
   const [tarefas, setTarefas] = useState([
-    new Tarefa(
-      1,
-      'Implementar tela de login',
-      'Criar formulário de autenticação',
-      'Alta',
-      '2026-04-10',
-      1,
-      'A Fazer'
-    ),
-    new Tarefa(
-      2,
-      'Criar API',
-      'Desenvolver endpoint inicial',
-      'Alta',
-      '2026-04-12',
-      1,
-      'Em Andamento'
-    ),
-    new Tarefa(
-      3,
-      'Documentar fluxo',
-      'Escrever documentação básica',
-      'Média',
-      '2026-04-15',
-      2,
-      'Concluído'
-    ),
+    new Tarefa(1, 'Implementar tela de login', 'Criar formulário de autenticação', 'Alta', '2026-04-10', 1, 'A Fazer'),
+    new Tarefa(2, 'Criar API', 'Desenvolver endpoint inicial', 'Alta', '2026-04-12', 1, 'Em Andamento'),
+    new Tarefa(3, 'Documentar fluxo', 'Escrever documentação básica', 'Média', '2026-04-15', 2, 'Concluído'),
   ]);
 
   const [novoUsuario, setNovoUsuario] = useState({
@@ -49,7 +25,7 @@ function App() {
   const [novaTarefa, setNovaTarefa] = useState({
     titulo: '',
     descricao: '',
-    prioridade: 'Média',
+    prioridade: 'Alta',
     prazo: '',
     responsavelId: '',
     status: 'A Fazer',
@@ -60,6 +36,14 @@ function App() {
     status: '',
     prioridade: '',
   });
+
+  const tarefasFiltradas = filtrarTarefas(tarefas, filtros);
+  const relatorio = calcularRelatorio(tarefas);
+
+  function buscarNomeResponsavel(id) {
+    const usuario = usuarios.find((u) => u.id === Number(id));
+    return usuario ? usuario.nome : 'Desconhecido';
+  }
 
   function cadastrarUsuario(e) {
     e.preventDefault();
@@ -83,14 +67,7 @@ function App() {
   function cadastrarTarefa(e) {
     e.preventDefault();
 
-    if (
-      !novaTarefa.titulo ||
-      !novaTarefa.descricao ||
-      !novaTarefa.prioridade ||
-      !novaTarefa.prazo ||
-      !novaTarefa.responsavelId ||
-      !novaTarefa.status
-    ) {
+    if (!novaTarefa.titulo || !novaTarefa.responsavelId) {
       alert('Preencha todos os campos da tarefa.');
       return;
     }
@@ -109,38 +86,27 @@ function App() {
     setNovaTarefa({
       titulo: '',
       descricao: '',
-      prioridade: 'Média',
+      prioridade: 'Alta',
       prazo: '',
       responsavelId: '',
       status: 'A Fazer',
     });
   }
+
   function alterarStatusTarefa(id, novoStatus) {
     const listaAtualizada = tarefas.map((tarefa) =>
       tarefa.id === id ? { ...tarefa, status: novoStatus } : tarefa
     );
-
     setTarefas(listaAtualizada);
   }
 
-  function buscarNomeResponsavel(responsavelId) {
-    const usuario = usuarios.find((u) => u.id === responsavelId);
-    return usuario ? usuario.nome : 'Não encontrado';
-  }
-
-  const tarefasFiltradas = filtrarTarefas(tarefas, filtros);
-  const relatorio = calcularRelatorio(tarefas);
-
   return (
     <div className="container">
-      <header className="header">
-        <h1>TaskFlow</h1>
-        <p>Sistema simples de gestão de tarefas</p>
-      </header>
+      <h1>Gerenciador de Tarefas</h1>
 
       <section className="grid-2">
         <div className="card">
-          <h2>Cadastro de Usuários</h2>
+          <h2>Cadastro de Usuário</h2>
           <form onSubmit={cadastrarUsuario} className="form">
             <input
               type="text"
@@ -193,9 +159,7 @@ function App() {
             />
             <select
               value={novaTarefa.responsavelId}
-              onChange={(e) =>
-                setNovaTarefa({ ...novaTarefa, responsavelId: e.target.value })
-              }
+              onChange={(e) => setNovaTarefa({ ...novaTarefa, responsavelId: e.target.value })}
             >
               <option value="">Selecione o responsável</option>
               {usuarios.map((usuario) => (
@@ -241,7 +205,8 @@ function App() {
             <option value="Em Andamento">Em Andamento</option>
             <option value="Concluído">Concluído</option>
           </select>
-           <select
+
+          <select
             value={filtros.prioridade}
             onChange={(e) => setFiltros({ ...filtros, prioridade: e.target.value })}
           >
@@ -254,13 +219,7 @@ function App() {
           <button
             type="button"
             className="secondary"
-            onClick={() =>
-              setFiltros({
-                responsavelId: '',
-                status: '',
-                prioridade: '',
-              })
-            }
+            onClick={() => setFiltros({ responsavelId: '', status: '', prioridade: '' })}
           >
             Limpar filtros
           </button>
@@ -304,7 +263,6 @@ function App() {
                 <p><strong>Prazo:</strong> {tarefa.prazo}</p>
                 <p><strong>Responsável:</strong> {buscarNomeResponsavel(tarefa.responsavelId)}</p>
                 <p><strong>Status:</strong> {tarefa.status}</p>
-
                 <select
                   value={tarefa.status}
                   onChange={(e) => alterarStatusTarefa(tarefa.id, e.target.value)}
@@ -322,4 +280,4 @@ function App() {
   );
 }
 
-export default 
+export default App;
