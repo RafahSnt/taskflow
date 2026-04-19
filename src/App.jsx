@@ -50,9 +50,9 @@ const prioridadeCor = {
 };
 
 const statusCor = {
-  'A Fazer':      { bg: '#f0f0ff', color: '#5340c0' },
-  'Em Andamento': { bg: '#fff8e6', color: '#b7770d' },
-  'Concluído':    { bg: '#f0faf5', color: '#1a7a45' },
+  'Pendente':      { bg: '#f0f0ff', color: '#5340c0' },
+  'Em Andamento':  { bg: '#fff8e6', color: '#b7770d' },
+  'Concluído':     { bg: '#f0faf5', color: '#1a7a45' },
 };
 
 export default function App() {
@@ -70,7 +70,7 @@ export default function App() {
   const [gerandoDoc,  setGerandoDoc]  = useState(false);
 
   const [novaTarefa, setNovaTarefa] = useState({
-    titulo: '', descricao: '', prioridade: 'Alta', prazo: '', responsavelId: '', status: 'A Fazer',
+    titulo: '', descricao: '', prioridade: 'Baixa', prazo: '', responsavelId: '', status: 'Pendente',
   });
 
   const [filtros, setFiltros] = useState({ responsavelId: '', status: '', prioridade: '' });
@@ -82,7 +82,7 @@ export default function App() {
     total:       tarefas.length,
     concluidas:  tarefas.filter((t) => t.status === 'Concluído').length,
     emAndamento: tarefas.filter((t) => t.status === 'Em Andamento').length,
-    aFazer:      tarefas.filter((t) => t.status === 'A Fazer').length,
+    pendente:    tarefas.filter((t) => t.status === 'Pendente').length,
   };
 
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function App() {
 
     if (error) { alert('Erro ao cadastrar tarefa.'); return; }
     setTarefas([...tarefas, data]);
-    setNovaTarefa({ titulo: '', descricao: '', prioridade: 'Alta', prazo: '', responsavelId: '', status: 'A Fazer' });
+    setNovaTarefa({ titulo: '', descricao: '', prioridade: 'Baixa', prazo: '', responsavelId: '', status: 'Pendente' });
     setMostrarFormTarefa(false);
   }
 
@@ -228,10 +228,10 @@ Responda em português, de forma clara e técnica.`;
         {/* Cards de Relatório */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: '1.5rem' }}>
           {[
-            { label: 'Total', valor: relatorio.total, cor: '#5340c0', bg: '#f0f0ff' },
-            { label: 'A Fazer', valor: relatorio.aFazer, cor: '#5340c0', bg: '#f0f0ff' },
+            { label: 'Total',        valor: relatorio.total,       cor: '#1a1a2e', bg: '#fff' },
+            { label: 'Pendente',     valor: relatorio.pendente,    cor: '#5340c0', bg: '#f0f0ff' },
             { label: 'Em Andamento', valor: relatorio.emAndamento, cor: '#b7770d', bg: '#fff8e6' },
-            { label: 'Concluídas', valor: relatorio.concluidas, cor: '#1a7a45', bg: '#f0faf5' },
+            { label: 'Concluídas',   valor: relatorio.concluidas,  cor: '#1a7a45', bg: '#f0faf5' },
           ].map((item) => (
             <div key={item.label} style={{
               background: '#fff', borderRadius: 16, border: '1px solid #ebebeb',
@@ -256,7 +256,7 @@ Responda em português, de forma clara e técnica.`;
             value={filtros.status}
             onChange={(e) => setFiltros({ ...filtros, status: e.target.value })}>
             <option value="">Todos os status</option>
-            <option value="A Fazer">A Fazer</option>
+            <option value="Pendente">Pendente</option>
             <option value="Em Andamento">Em Andamento</option>
             <option value="Concluído">Concluído</option>
           </select>
@@ -265,9 +265,9 @@ Responda em português, de forma clara e técnica.`;
             value={filtros.prioridade}
             onChange={(e) => setFiltros({ ...filtros, prioridade: e.target.value })}>
             <option value="">Todas as prioridades</option>
-            <option value="Alta">Alta</option>
-            <option value="Média">Média</option>
             <option value="Baixa">Baixa</option>
+            <option value="Média">Média</option>
+            <option value="Alta">Alta</option>
           </select>
 
           <button onClick={() => setFiltros({ responsavelId: '', status: '', prioridade: '' })} style={{
@@ -311,9 +311,9 @@ Responda em português, de forma clara e técnica.`;
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 16 }}>
                 <select style={estiloSelect} value={novaTarefa.prioridade}
                   onChange={(e) => setNovaTarefa({ ...novaTarefa, prioridade: e.target.value })}>
-                  <option value="Alta">Alta</option>
-                  <option value="Média">Média</option>
                   <option value="Baixa">Baixa</option>
+                  <option value="Média">Média</option>
+                  <option value="Alta">Alta</option>
                 </select>
 
                 <input style={estiloInput} type="date" value={novaTarefa.prazo}
@@ -321,7 +321,7 @@ Responda em português, de forma clara e técnica.`;
 
                 <select style={estiloSelect} value={novaTarefa.status}
                   onChange={(e) => setNovaTarefa({ ...novaTarefa, status: e.target.value })}>
-                  <option value="A Fazer">A Fazer</option>
+                  <option value="Pendente">Pendente</option>
                   <option value="Em Andamento">Em Andamento</option>
                   <option value="Concluído">Concluído</option>
                 </select>
@@ -387,7 +387,7 @@ Responda em português, de forma clara e técnica.`;
                         <select value={tarefa.status}
                           onChange={(e) => alterarStatusTarefa(tarefa.id, e.target.value)}
                           style={{ ...estiloSelect, fontSize: 12, padding: '6px 30px 6px 10px', width: 'auto' }}>
-                          <option value="A Fazer">A Fazer</option>
+                          <option value="Pendente">Pendente</option>
                           <option value="Em Andamento">Em Andamento</option>
                           <option value="Concluído">Concluído</option>
                         </select>
