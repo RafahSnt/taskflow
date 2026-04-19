@@ -205,11 +205,6 @@ export default function Login({ onLogin }) {
               <button type="submit" disabled={carregando} style={{ ...estiloBotao, background: carregando ? '#888' : '#1a1a2e', cursor: carregando ? 'not-allowed' : 'pointer' }}>
                 {carregando ? 'Entrando...' : 'Entrar'}
               </button>
-              <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#f8f8f8', borderRadius: 8, fontSize: 12, color: '#888', fontFamily: 'sans-serif' }}>
-                <p style={{ margin: '0 0 4px', fontWeight: 600, color: '#555' }}>Credenciais de teste:</p>
-                <p style={{ margin: 0 }}>joao@email.com / 123456</p>
-                <p style={{ margin: 0 }}>maria@email.com / 123456</p>
-              </div>
             </form>
           )}
 
