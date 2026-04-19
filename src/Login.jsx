@@ -99,7 +99,7 @@ export default function Login({ onLogin }) {
     e.preventDefault();
     setErro('');
 
-    if (!cadastro.nome || !cadastro.email || !cadastro.funcao || !cadastro.senha) {
+    if (!cadastro.nome || !cadastro.email || !cadastro.senha) {
       setErro('Preencha todos os campos.');
       return;
     }
@@ -122,7 +122,7 @@ export default function Login({ onLogin }) {
       nome: cadastro.nome,
       email: cadastro.email,
       senha: cadastro.senha,
-      funcao: cadastro.funcao,
+      funcao: 'Não informado',
     }]);
 
     if (error) {
@@ -230,23 +230,7 @@ export default function Login({ onLogin }) {
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
                   onBlur={(e) => e.target.style.borderColor = '#e0e0e0'} />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={estiloLabel}>Função</label>
-                <select value={cadastro.funcao} required
-                  onChange={(e) => setCadastro({ ...cadastro, funcao: e.target.value })}
-                  style={{ ...estiloInput, color: cadastro.funcao ? '#1a1a2e' : '#aaa' }}
-                  onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
-                  onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}>
-                  <option value="">Função</option>
-                  <option value="Desenvolvedor">Desenvolvedor</option>
-                  <option value="Analista">Analista</option>
-                  <option value="Designer">Designer</option>
-                  <option value="Gerente de Projeto">Gerente de Projeto</option>
-                  <option value="Testador (QA)">Testador (QA)</option>
-                  <option value="DevOps">DevOps</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </div>
+
               <div style={{ marginBottom: '1rem' }}>
                 <label style={estiloLabel}>Senha</label>
                 <InputSenha value={cadastro.senha}
