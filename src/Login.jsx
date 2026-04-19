@@ -237,7 +237,7 @@ export default function Login({ onLogin }) {
                   style={{ ...estiloInput, color: cadastro.funcao ? '#1a1a2e' : '#aaa' }}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
                   onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}>
-                  <option value="">Selecione sua função</option>
+                  <option value="">Função</option>
                   <option value="Desenvolvedor">Desenvolvedor</option>
                   <option value="Analista">Analista</option>
                   <option value="Designer">Designer</option>
