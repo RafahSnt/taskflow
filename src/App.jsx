@@ -320,12 +320,7 @@ export default function App() {
                           style={{ ...sSelect, fontSize: 12, padding: '6px 30px 6px 10px', width: 'auto' }}>
                           {STATUS.map((s) => <option key={s} value={s}>{s}</option>)}
                         </select>
-                        <button onClick={() => gerarDoc(tarefa)} style={{
-                          padding: '6px 12px', background: '#1a1a2e', color: '#fff',
-                          border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 500,
-                        }}>
-                          Gerar Doc IA
-                        </button>
+
                         <button onClick={() => excluirTarefa(tarefa.id)} style={{
                           padding: '6px 12px', background: '#fff0f0', color: '#c0392b',
                           border: '1px solid #ffc5c5', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 500,
