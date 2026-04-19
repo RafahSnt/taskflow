@@ -128,6 +128,13 @@ export default function App() {
     if (!error) setTarefas(tarefas.map((t) => t.id === id ? { ...t, status } : t));
   }
 
+  async function excluirTarefa(id) {
+    if (!confirm('Tem certeza que deseja excluir esta tarefa?')) return;
+    const { error } = await supabase.from('tarefas').delete().eq('id', id);
+    if (!error) setTarefas(tarefas.filter((t) => t.id !== id));
+    else alert('Erro ao excluir tarefa.');
+  }
+
   async function gerarDoc(tarefa) {
     setDocAberta(tarefa);
     setDocTexto('');
@@ -318,6 +325,12 @@ export default function App() {
                           border: 'none', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 500,
                         }}>
                           Gerar Doc IA
+                        </button>
+                        <button onClick={() => excluirTarefa(tarefa.id)} style={{
+                          padding: '6px 12px', background: '#fff0f0', color: '#c0392b',
+                          border: '1px solid #ffc5c5', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 500,
+                        }}>
+                          Excluir
                         </button>
                       </div>
                     </div>
