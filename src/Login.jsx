@@ -10,7 +10,7 @@ const estiloInput = {
 
 const estiloLabel = {
   display: 'block', fontSize: 12, fontWeight: 600, color: '#444',
-  marginBottom: 6, fontFamily: 'sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em',
+  marginBottom: 6, fontFamily: 'sans-serif', letterSpacing: '0.05em',
 };
 
 const estiloBotao = {
@@ -225,6 +225,7 @@ export default function Login({ onLogin }) {
               </div>
               <div style={{ marginBottom: '1rem' }}>
                 <label style={estiloLabel}>Cargo</label>
+
                 <input type="text" placeholder="Ex: Desenvolvedor, Analista..." value={cadastro.funcao} required
                   onChange={(e) => setCadastro({ ...cadastro, funcao: e.target.value })} style={estiloInput}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
