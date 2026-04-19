@@ -99,7 +99,7 @@ export default function Login({ onLogin }) {
     e.preventDefault();
     setErro('');
 
-    if (!cadastro.nome || !cadastro.email || !cadastro.senha) {
+    if (!cadastro.nome || !cadastro.email || !cadastro.funcao || !cadastro.senha) {
       setErro('Preencha todos os campos.');
       return;
     }
@@ -122,7 +122,7 @@ export default function Login({ onLogin }) {
       nome: cadastro.nome,
       email: cadastro.email,
       senha: cadastro.senha,
-      funcao: 'Não informado',
+      funcao: cadastro.funcao,
     }]);
 
     if (error) {
@@ -220,6 +220,13 @@ export default function Login({ onLogin }) {
                 <label style={estiloLabel}>Nome completo</label>
                 <input type="text" placeholder="Seu nome" value={cadastro.nome} required
                   onChange={(e) => setCadastro({ ...cadastro, nome: e.target.value })} style={estiloInput}
+                  onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
+                  onBlur={(e) => e.target.style.borderColor = '#e0e0e0'} />
+              </div>
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={estiloLabel}>Função / Cargo</label>
+                <input type="text" placeholder="Ex: Desenvolvedor, Analista..." value={cadastro.funcao} required
+                  onChange={(e) => setCadastro({ ...cadastro, funcao: e.target.value })} style={estiloInput}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
                   onBlur={(e) => e.target.style.borderColor = '#e0e0e0'} />
               </div>
