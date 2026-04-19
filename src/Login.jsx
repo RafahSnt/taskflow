@@ -1,6 +1,59 @@
 import { useState } from 'react';
 import { supabase } from './supabase';
 
+// ─── Fora do Login para não recriar a cada render e perder o foco ─────────────
+const estiloInput = {
+  width: '100%', padding: '10px 14px', borderRadius: 8,
+  border: '1.5px solid #e0e0e0', fontSize: 15, outline: 'none',
+  fontFamily: 'sans-serif', boxSizing: 'border-box', transition: 'border-color 0.2s',
+};
+
+const estiloLabel = {
+  display: 'block', fontSize: 12, fontWeight: 600, color: '#444',
+  marginBottom: 6, fontFamily: 'sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em',
+};
+
+const estiloBotao = {
+  width: '100%', padding: '12px', background: '#1a1a2e', color: '#fff',
+  border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600,
+  cursor: 'pointer', fontFamily: 'sans-serif', letterSpacing: '0.02em',
+};
+
+function InputSenha({ value, onChange, mostrar, setMostrar, placeholder = '••••••••' }) {
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        type={mostrar ? 'text' : 'password'}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        required
+        style={{ ...estiloInput, paddingRight: 44 }}
+        onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
+        onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
+      />
+      <button type="button" onClick={() => setMostrar(!mostrar)} style={{
+        position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+        background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#888',
+      }}>
+        {mostrar ? (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+            <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+            <line x1="1" y1="1" x2="23" y2="23"/>
+          </svg>
+        ) : (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
+// ─── Componente principal ─────────────────────────────────────────────────────
 export default function Login({ onLogin }) {
   const [tela, setTela] = useState('login');
   const [email, setEmail] = useState(() => localStorage.getItem('emailSalvo') || '');
@@ -39,7 +92,6 @@ export default function Login({ onLogin }) {
       localStorage.setItem('usuarioLogado', JSON.stringify(usuarioSemSenha));
       onLogin(usuarioSemSenha);
     }
-
     setCarregando(false);
   }
 
@@ -80,56 +132,7 @@ export default function Login({ onLogin }) {
       setCadastro({ nome: '', email: '', funcao: '', senha: '', confirmarSenha: '' });
       setTimeout(() => { setTela('login'); setSucesso(''); }, 1800);
     }
-
     setCarregando(false);
-  }
-
-  const estiloInput = {
-    width: '100%', padding: '10px 14px', borderRadius: 8,
-    border: '1.5px solid #e0e0e0', fontSize: 15, outline: 'none',
-    fontFamily: 'sans-serif', boxSizing: 'border-box', transition: 'border-color 0.2s',
-  };
-
-  const estiloLabel = {
-    display: 'block', fontSize: 12, fontWeight: 600, color: '#444',
-    marginBottom: 6, fontFamily: 'sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em',
-  };
-
-  const estiloBotao = {
-    width: '100%', padding: '12px', background: '#1a1a2e', color: '#fff',
-    border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 600,
-    cursor: 'pointer', fontFamily: 'sans-serif', letterSpacing: '0.02em',
-  };
-
-  function InputSenha({ value, onChange, mostrar, setMostrar, placeholder = '••••••••' }) {
-    return (
-      <div style={{ position: 'relative' }}>
-        <input
-          type={mostrar ? 'text' : 'password'} value={value} onChange={onChange}
-          placeholder={placeholder} required
-          style={{ ...estiloInput, paddingRight: 44 }}
-          onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
-          onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
-        />
-        <button type="button" onClick={() => setMostrar(!mostrar)} style={{
-          position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
-          background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#888',
-        }}>
-          {mostrar ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
-              <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
-              <line x1="1" y1="1" x2="23" y2="23"/>
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          )}
-        </button>
-      </div>
-    );
   }
 
   return (
@@ -193,7 +196,8 @@ export default function Login({ onLogin }) {
               </div>
               <div style={{ marginBottom: '1rem' }}>
                 <label style={estiloLabel}>Senha</label>
-                <InputSenha value={senha} onChange={(e) => setSenha(e.target.value)} mostrar={mostrarSenha} setMostrar={setMostrarSenha} />
+                <InputSenha value={senha} onChange={(e) => setSenha(e.target.value)}
+                  mostrar={mostrarSenha} setMostrar={setMostrarSenha} />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: '1.5rem' }}>
                 <input type="checkbox" id="lembrar" checked={lembrar} onChange={(e) => setLembrar(e.target.checked)}
@@ -202,7 +206,9 @@ export default function Login({ onLogin }) {
                   Lembrar meu email
                 </label>
               </div>
-              <button type="submit" disabled={carregando} style={{ ...estiloBotao, background: carregando ? '#888' : '#1a1a2e', cursor: carregando ? 'not-allowed' : 'pointer' }}>
+              <button type="submit" disabled={carregando} style={{
+                ...estiloBotao, background: carregando ? '#888' : '#1a1a2e', cursor: carregando ? 'not-allowed' : 'pointer',
+              }}>
                 {carregando ? 'Entrando...' : 'Entrar'}
               </button>
             </form>
@@ -233,15 +239,21 @@ export default function Login({ onLogin }) {
               </div>
               <div style={{ marginBottom: '1rem' }}>
                 <label style={estiloLabel}>Senha</label>
-                <InputSenha value={cadastro.senha} onChange={(e) => setCadastro({ ...cadastro, senha: e.target.value })}
-                  mostrar={mostrarSenhaCadastro} setMostrar={setMostrarSenhaCadastro} placeholder="Mínimo 6 caracteres" />
+                <InputSenha value={cadastro.senha}
+                  onChange={(e) => setCadastro({ ...cadastro, senha: e.target.value })}
+                  mostrar={mostrarSenhaCadastro} setMostrar={setMostrarSenhaCadastro}
+                  placeholder="Mínimo 6 caracteres" />
               </div>
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={estiloLabel}>Confirmar senha</label>
-                <InputSenha value={cadastro.confirmarSenha} onChange={(e) => setCadastro({ ...cadastro, confirmarSenha: e.target.value })}
-                  mostrar={mostrarConfirmar} setMostrar={setMostrarConfirmar} placeholder="Repita a senha" />
+                <InputSenha value={cadastro.confirmarSenha}
+                  onChange={(e) => setCadastro({ ...cadastro, confirmarSenha: e.target.value })}
+                  mostrar={mostrarConfirmar} setMostrar={setMostrarConfirmar}
+                  placeholder="Repita a senha" />
               </div>
-              <button type="submit" disabled={carregando} style={{ ...estiloBotao, background: carregando ? '#888' : '#1a1a2e', cursor: carregando ? 'not-allowed' : 'pointer' }}>
+              <button type="submit" disabled={carregando} style={{
+                ...estiloBotao, background: carregando ? '#888' : '#1a1a2e', cursor: carregando ? 'not-allowed' : 'pointer',
+              }}>
                 {carregando ? 'Criando conta...' : 'Criar conta'}
               </button>
             </form>
