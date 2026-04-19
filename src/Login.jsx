@@ -232,10 +232,20 @@ export default function Login({ onLogin }) {
               </div>
               <div style={{ marginBottom: '1rem' }}>
                 <label style={estiloLabel}>Função</label>
-                <input type="text" placeholder="Ex: Desenvolvedor, Analista..." value={cadastro.funcao} required
-                  onChange={(e) => setCadastro({ ...cadastro, funcao: e.target.value })} style={estiloInput}
+                <select value={cadastro.funcao} required
+                  onChange={(e) => setCadastro({ ...cadastro, funcao: e.target.value })}
+                  style={{ ...estiloInput, color: cadastro.funcao ? '#1a1a2e' : '#aaa' }}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
-                  onBlur={(e) => e.target.style.borderColor = '#e0e0e0'} />
+                  onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}>
+                  <option value="">Selecione sua função</option>
+                  <option value="Desenvolvedor">Desenvolvedor</option>
+                  <option value="Analista">Analista</option>
+                  <option value="Designer">Designer</option>
+                  <option value="Gerente de Projeto">Gerente de Projeto</option>
+                  <option value="Testador (QA)">Testador (QA)</option>
+                  <option value="DevOps">DevOps</option>
+                  <option value="Outro">Outro</option>
+                </select>
               </div>
               <div style={{ marginBottom: '1rem' }}>
                 <label style={estiloLabel}>Senha</label>
