@@ -217,21 +217,21 @@ export default function Login({ onLogin }) {
           {tela === 'cadastro' && (
             <form onSubmit={handleCadastro}>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={estiloLabel}>Nome completo</label>
-                <input type="text" placeholder="Seu nome" value={cadastro.nome} required
+                <label style={estiloLabel}>Nome Completo</label>
+                <input type="text" placeholder="Seu nome completo" value={cadastro.nome} required
                   onChange={(e) => setCadastro({ ...cadastro, nome: e.target.value })} style={estiloInput}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
                   onBlur={(e) => e.target.style.borderColor = '#e0e0e0'} />
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={estiloLabel}>Função / Cargo</label>
+                <label style={estiloLabel}>Cargo</label>
                 <input type="text" placeholder="Ex: Desenvolvedor, Analista..." value={cadastro.funcao} required
                   onChange={(e) => setCadastro({ ...cadastro, funcao: e.target.value })} style={estiloInput}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
                   onBlur={(e) => e.target.style.borderColor = '#e0e0e0'} />
               </div>
               <div style={{ marginBottom: '1rem' }}>
-                <label style={estiloLabel}>Email</label>
+                <label style={estiloLabel}>E-mail</label>
                 <input type="email" placeholder="seu@email.com" value={cadastro.email} required
                   onChange={(e) => setCadastro({ ...cadastro, email: e.target.value })} style={estiloInput}
                   onFocus={(e) => e.target.style.borderColor = '#1a1a2e'}
